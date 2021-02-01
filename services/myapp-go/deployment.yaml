@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: List
+metadata:
+  name: myapp-go
+
+items:
+  # Service
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: myapp-go
+      labels:
+        app: myapp-go
+        name: myapp-go
+    spec:
+      selector:
+        app: myapp-go
+      type: Cluster-IP
+      ports:
+        - name: myapp-go
+          protocol: TCP
+          port: 3000
+
+  # Deployment
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: myapp-go
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 0
+      minReadySeconds: 300
+      strategy:
+        type: Recreate
+      selector:
+        matchLabels:
+          app: myapp-go
+      template:
+        metadata:
+          name: myapp-go
+          labels:
+            app: myapp-go
+        spec:
+          containers:
+            - name: myapp-go
+              image: docker.io/lindachen/myapp-go:v1.0.0
+              imagePullPolicy: Always
+              readinessProbe:
+                httpGet:
+                  path: /healthz
+                  port: 3000
+              ports:
+                - name: web
+                  containerPort: 3000
+
+
