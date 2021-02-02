@@ -20,7 +20,7 @@ gobuild:
 
 .PHONY: push
 push: 
-	docker login --username "lindachen" --password-stdin <<< "${DOCKER_ACCESS_TOKEN}"
+	docker tag myapp-go:v1.0.0 docker.io/lindachen/myapp-go:v1.0.0
 	docker push docker.io/lindachen/myapp-go:v1.0.0
 
 .PHONY: deploy

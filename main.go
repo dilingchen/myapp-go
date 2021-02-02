@@ -5,6 +5,9 @@ import (
 )
 
 func main(){
-	s:= server.NewServer()
-	s.ListenAndServer()
+	s := server.NewServer()
+ 	err := s.ListenAndServe()
+	if err!=nil {
+		panic(err.Error())
+	}
 }

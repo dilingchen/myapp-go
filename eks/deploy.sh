@@ -33,3 +33,13 @@ if [ $? -ne 0 ]; then
     echo "# Failed to deploy the app to the cluster."
     exit $rc
 fi
+
+echo
+echo "# Checking the app on the cluster."
+echo
+kubectl get pods -l app=myapp-go
+if [ $? -ne 0 ]; then
+    rc=$?
+    echo "# Failed to check the app on the cluster."
+    exit $rc
+fi

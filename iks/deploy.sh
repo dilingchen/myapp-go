@@ -48,3 +48,4 @@ if [ $? -ne 0 ]; then
     echo "# Failed to deploy the app to the cluster."
     exit $rc
 fi
+

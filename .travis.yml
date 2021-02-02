@@ -14,9 +14,9 @@ install:
 script:
   - make test
   - make gobuild
+  - docker login --username "lindachen" --password-stdin <<< "${DOCKER_ACCESS_TOKEN}"
   - docker build -t myapp-go:v1.0.0 .
   - docker images
-  - docker tag myapp-go:v1.0.0 docker.io/lindachen/myapp-go:v1.0.0
 
 deploy:
   - provider: script
