@@ -2,7 +2,7 @@ sudo: true
 
 language: go
 
-go: 1.14.12
+go: 1.15
 
 services:
   - docker
