@@ -21,3 +21,4 @@ if [ $? -ne 0 ]; then
     echo "The ibmcloud cli can not work correctly."
     exit $rc
 fi
+

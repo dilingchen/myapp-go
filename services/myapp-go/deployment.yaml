@@ -52,5 +52,3 @@ items:
               ports:
                 - name: web
                   containerPort: 3000
-
-

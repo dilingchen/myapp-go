@@ -14,7 +14,7 @@ import (
 
 func TestNewServer(t *testing.T) {
 	s := NewServer()
-	go s.ListenAndServer()
+	go s.ListenAndServe()
 
 	tr := &http.Transport{
 		MaxIdleConns:       10,
@@ -23,38 +23,39 @@ func TestNewServer(t *testing.T) {
 	}
 	client := &http.Client{Transport: tr}
 
-	DefaultSchema := "http"
+	DefaultScheme := "http"
 	DefaultHost := "localhost"
 	url := &url.URL{
-		Schema: DefaultSchema,
+		Scheme: DefaultScheme,
 		Host:	fmt.Sprintf("%s:%v", DefaultHost, DefaultPort),
 		Path:	"greet",
 	}
 
 	req, err := http.NewRequest("GET", url.String(), nil)
 	assert.Nil(t, err)
-	resp, err := client.Do(req)
-	defer resp.Body.Close()
+	resp1, err := client.Do(req)
+	defer resp1.Body.Close()
 	assert.Nil(t, err)
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
-	body, err := ioutil.ReadAll(resp.Body)
+	assert.Equal(t, http.StatusOK, resp1.StatusCode)
+	body1, err := ioutil.ReadAll(resp1.Body)
 	assert.Nil(t, err)
 	greeting := Greeting{}
-	err = json.Unmarshal(body, &greeting)
+	err = json.Unmarshal(body1, &greeting)
 	assert.Nil(t, err)
 	assert.Equal(t, "Hello", greeting.Greeting)
 
 	url.Path = "healthz"
-	req.err := http.NewRequest("GET", url.String(), nil)
+	req, err = http.NewRequest("GET", url.String(), nil)
 	assert.Nil(t, err)
-	resp, err := client.Do(req)
-	defer resp.Body.Close()
+	resp2, err := client.Do(req)
+        defer resp2.Body.Close()
 	assert.Nil(t, err)
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
-	body, err := ioutil.ReadAll(resp.Body)
+	assert.Equal(t, http.StatusOK, resp2.StatusCode)
+	body2, err := ioutil.ReadAll(resp2.Body)
 	assert.Nil(t, err)
-	greeting := Greeting{}
-	err = json.Unmarshal(body, &greeting)
+	health := HealthStatus{}
+	err = json.Unmarshal(body2, &health)
 	assert.Nil(t, err)
-	assert.Equal(t, "Normal", greeting.Greeting)
+	assert.Equal(t, "Normal", health.HealthStatus)
 }
+
