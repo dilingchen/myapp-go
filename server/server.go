@@ -22,7 +22,7 @@ type HealthStatus struct {
 
 func NewServer() *http.Server {
 	serveMux := http.NewServeMux()
-	serveMux.HandleFunc("/greet", func (w http.ResponseWrite, req *http.Request){
+	serveMux.HandleFunc("/greet", func (w http.ResponseWriter, req *http.Request){
 		response:= Greeting{
 			Greeting: "Hello",
 		}
@@ -36,7 +36,7 @@ func NewServer() *http.Server {
 			panic(err)
 		}
 	})
-	serveMux.HandleFunc("/healthz", func (w http.ResponseWrite, req *http.Request){
+	serveMux.HandleFunc("/healthz", func (w http.ResponseWriter, req *http.Request){
 		response:= HealthStatus{
 			HealthStatus: "Normal",
 		}
@@ -53,8 +53,8 @@ func NewServer() *http.Server {
 	return &http.Server{
 		Addr: 			fmt.Sprintf(":%v", DefaultPort),
 		Handler: 		serveMux,
-		ReadTimout:		10* time.Second,
-		WriteTimout:	10* time.Second,
-		MaxHeaderBytes: 1<<20,
+		ReadTimeout:		10* time.Second,
+		WriteTimeout:		10* time.Second,
+		MaxHeaderBytes: 	1<<20,
 	}
 }
