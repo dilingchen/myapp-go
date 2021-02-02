@@ -6,12 +6,13 @@ go: 1.14.12
 
 services:
   - docker
-
-before_script:
-  - docker login --username "lindachen" --password-stdin <<< "${DOCKER_ACCESS_TOKEN}" 
   
+install:
+  - make deps
+  - make sec
+
 script:
-  - make
+  - make test
   - make gobuild
   - docker build -t myapp-go:v1.0.0 .
   - docker images
@@ -28,5 +29,3 @@ deploy:
     skip_cleanup: true
     on:
       branch: main
-
-
