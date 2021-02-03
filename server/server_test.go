@@ -15,7 +15,10 @@ import (
 func TestNewServer(t *testing.T) {
 	s := NewServer()
 	go s.ListenAndServe()
-
+        
+	// wait	for server to start
+	time.Sleep(5 * time.Second)   
+               		
 	tr := &http.Transport{
 		MaxIdleConns:       10,
 		IdleConnTimeout:    30 * time.Second,
@@ -34,6 +37,7 @@ func TestNewServer(t *testing.T) {
 	req, err := http.NewRequest("GET", url.String(), nil)
 	assert.Nil(t, err)
 	resp1, err := client.Do(req)
+	defer resp1.Body.Close()
 	assert.Nil(t, err)
 	assert.Equal(t, http.StatusOK, resp1.StatusCode)
 	body1, err := ioutil.ReadAll(resp1.Body)
@@ -47,6 +51,7 @@ func TestNewServer(t *testing.T) {
 	req, err = http.NewRequest("GET", url.String(), nil)
 	assert.Nil(t, err)
 	resp2, err := client.Do(req)
+	defer resp2.Body.Close()
 	assert.Nil(t, err)
 	assert.Equal(t, http.StatusOK, resp2.StatusCode)
 	body2, err := ioutil.ReadAll(resp2.Body)
