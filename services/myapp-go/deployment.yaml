@@ -15,7 +15,7 @@ items:
     spec:
       selector:
         app: myapp-go
-      type: Cluster-IP
+      type: ClusterIP
       ports:
         - name: myapp-go
           protocol: TCP
