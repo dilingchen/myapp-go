@@ -1,0 +1,31 @@
+sudo: true
+
+language: go
+
+go: 1.15
+
+services:
+  - docker
+  
+install:
+  - make deps
+  - make sec
+
+script:
+  - make test
+  - make gobuild
+  - docker login --username "lindachen" --password-stdin <<< "${DOCKER_ACCESS_TOKEN}"
+  - docker build -t myapp-go:v1.0.0 .
+  - docker images
+
+deploy:
+  - provider: script
+    script: make push
+    skip_cleanup: true
+    on:
+      branch: main
+  - provider: script
+    script: make deploy
+    skip_cleanup: true
+    on:
+      branch: main
