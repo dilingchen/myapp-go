@@ -3,7 +3,7 @@
 # disable update check
 ibmcloud config --check-version=false
 
-# IBMCLOUD_API_KEY is set in environment variable
+export IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}"
 echo
 echo "# Logging ibmcloud."
 echo
