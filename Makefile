@@ -25,5 +25,5 @@ push:
 
 .PHONY: deploy
 deploy: 
-	./eks/install-tools.sh
-	./eks/deploy.sh
+	./iks/install-tools.sh
+	./iks/deploy.sh
